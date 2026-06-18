@@ -10,10 +10,12 @@ from pathlib import Path
 def load_logs(file_path: str) -> list:
     with open(file_path, 'r') as file:
 
-        logs = []
-        for line in file:
-            logs.append(line.strip())
+        #logs = []
+        # for line in file:
+        #     logs.append(line.strip())
 
+        # alternative for the commented code above using map and lambda function
+        logs = list(map(lambda x: x.strip(), file))
         return logs
 
 
@@ -22,7 +24,7 @@ def filter_logs_by_level(logs: list, level: str) -> list:
     level_list = []
 
     # Filtering by level
-    print(f"\nДеталі логів для рівня '{level.upper()}':")
+    print(f"\nДеталі логів для рівня '{level.upper()}':\n")
     for log in logs:
         if level.upper() in log:
             print(log)
@@ -53,8 +55,8 @@ def parse_log_line(line: str) -> dict:
 def count_logs_by_level(logs: list) -> dict:
     status_dict = {}
     for line in logs:
-        line = line.split(' ')
-        status = line[2]
+        log_data = parse_log_line(line)
+        status = log_data["level"]
         
         # adding the status to the dictionary and counting its occurrences
         if status in status_dict:
@@ -106,7 +108,14 @@ def main():
     except FileNotFoundError:
         print("\nFile not found. Please check the file path and try again.\n")
         sys.exit() 
+    except IndexError:
+        print("\nPlease provide both the file path and the status code as command-line arguments.\n")
+        sys.exit()
+    except SyntaxError:
+        print("\nSyntax error. Please check your command and try again.\n")
+        sys.exit()
 
 
 if __name__ == "__main__":
     main()
+

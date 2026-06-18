@@ -3,7 +3,7 @@ import re
 
 def generator_numbers(text: str) -> Generator[float, None, None]:
     # Use regular expressions to find all numbers in the text
-    match = re.findall(r"\d+\.\d+|\d+", text)
+    match = re.findall(r" \d+\.\d+ | \d+ ", text)
     # Yield each number as a float
     for number in match:
         yield float(number)

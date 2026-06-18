@@ -13,7 +13,7 @@ def input_error(func):
     return inner
 
 
-
+@input_error
 def parse_input(user_input):
     cmd, *args = user_input.split()
     cmd = cmd.strip().lower()
@@ -28,7 +28,10 @@ def add_contact(args, contacts):
 @input_error
 def change_contact(args, contacts):
     name, phone = args
-    contacts[name] = phone
+    if name not in contacts:
+        return "Contact not found."
+    else:
+        contacts[name] = phone
     return "Contact updated."
 
 @input_error
